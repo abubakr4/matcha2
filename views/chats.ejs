@@ -17,8 +17,16 @@
     <h1>Connections</h1>
     <div class="connections">
       <%
-        let i = no - 1;
+        
+        let result1 = result;
 
+        if (result1 != 'found'){
+      %>
+          <div class="contact">You have no connections</div>
+      <%}else{
+          let i = no - 1;
+      %>
+      <%
         while (i >= 0){
           let username = contact[i].connected_to;
            %>
@@ -30,7 +38,7 @@
               <button class="view-chats">view chats</button>
             </form>
           </div>
-      <% i-- } %>
+      <% i-- } }%>
     </div>
 </main>
 <div class="header-bottom">

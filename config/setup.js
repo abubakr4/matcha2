@@ -17,6 +17,8 @@ connection.query('CREATE TABLE IF NOT EXISTS matcha.user_filters(id INT(11) AUTO
 console.log('table user_filters created');
 connection.query('CREATE TABLE IF NOT EXISTS matcha.messages (id INT(11) NOT NULL AUTO_INCREMENT PRIMARY KEY, sentby VARCHAR(255) NOT NULL, sentto VARCHAR(255) NOT NULL, message VARCHAR(255) NOT NULL, msg_state VARCHAR(255) NOT NULL, date_time TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP)');
 console.log('table messages created');
+connection.query('CREATE TABLE IF NOT EXISTS matcha.socketid (id INT(11) NOT NULL AUTO_INCREMENT PRIMARY KEY, username VARCHAR(255) NOT NULL, soc_id VARCHAR(255) NOT NULL)');
+console.log('table socketid created');
 connection.query("CREATE TABLE IF NOT EXISTS matcha.images (username VARCHAR(255) NOT NULL, image VARCHAR(1500) NOT NULL);", (err, succ) => {
     if (err)
         console.log(err);

@@ -78,9 +78,15 @@ app.use('/remove_image', removeImage);
 app.use('/chats', chats);
 app.use('/messages', messages)
 
+
 io.on('connection', (socket) => {
     console.log("user has connected");
- });
+    
+    socket.on("loginMsg", (msg) => {
+        socket.emit('id', socket.id);
+    });
+    // we have to do for the disconnecting on the page close and on the log out
+});
 
 server.listen(port, () => console.log(`listening on port ${port}`));
 

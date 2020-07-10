@@ -15,7 +15,7 @@ router.get('/', (req, res) =>{
             }else{
                 if (!row){
                     console.log("somthing went wrong");
-                    res.status(200).send({msg: "empty"});
+                    res.render('chats', {result: "empty"});
                 }else{
                     var iter = (row) => {
                         var i = 0;
@@ -24,7 +24,10 @@ router.get('/', (req, res) =>{
                         return i;
                     }
                     var num = iter(row);
-                    res.render('chats', {no: num, contact: row});
+                    if (num > 0)
+                        res.render('chats', {result: 'found', no: num, contact: row});
+                    else
+                        res.render('chats', {result: 'non', no: num, contact: row});
                 }
             }
         })

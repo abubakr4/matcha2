@@ -4,6 +4,7 @@ var session = require('express-session')
 var bcrypt = require('bcryptjs')
 var connection = require('../config/db')
 var secretString = Math.floor((Math.random() * 10000) + 1);
+const socketio = require('socket.io');
 
 router.get('/', (req, res) => {
     res.render('login', {
@@ -27,6 +28,7 @@ router.post('/', (req, res) => {
             }
             else if (rows[0] && rows[0].Verify == 1) {
                 if (bcrypt.compareSync(req.body.Password, rows[0].Password)) {
+                    req.session.socketid = req.body.socketid;
                     req.session.user = req.body.username
                     req.session.Firstname = rows[0].Firstname
                     req.session.Lastname = rows[0].Lastname
@@ -52,7 +54,12 @@ router.post('/', (req, res) => {
                     connection.query('UPDATE users SET Online = 1 WHERE username = ?', [rows[0].username], (err) => {
                         if (err) console.log(err)
                     })
-                    res.redirect('/chats')
+                    var query = 'INSERT INTO `socketid` (`username`, `soc_id`) VALUES (?, ?)';
+                    connection.query(query, [req.body.username, req.body.socketid], (err) => {
+                        if (err) res.send('databse error');
+                        else console.log("socket added to the db");
+                    });
+                    res.redirect('/')
                 }
                 else {
                     // req.session.error = "Password Incorrect"
