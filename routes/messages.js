@@ -28,22 +28,28 @@ router.post('/', (req, res) => {
         const to = req.session.user;
         const from = req.body.username;
         var query = "SELECT * FROM messages WHERE sentby = ? AND sentto = ?";
-        connection.query(query, [from, to], (err, row) => {
+        connection.query(query, [from, to], (err, them) => {
             if (err){
                 console.log("database error");
                 res.status(400).send("database error");
-            }else if (!row){
-                res.render('messages', {msgs: "empty"}); 
             }else{
-                var iter = (row) => {
-                    var i = 0;
-                    while (row[i])
-                         i++;
-                    return i;
-                }
-                var num = iter(row);
-                res.render('messages', {no: num, message: row});
-                //res.status(200).send(row);
+                query = "SELECT * FROM messages WHERE sentby = ? AND sentto = ?";
+                connection.query(query, [to, from], (err, me) => {
+                    if (err){
+                        console.log("database error");
+                        res.status(400).send("database error");
+                    }else{
+                        var iter = (row) => {
+                            var i = 0;
+                            while (row[i])
+                                 i++;
+                            return i;
+                        }
+                        var themNum = iter(them);
+                        var meNum = iter(me);
+                        res.render('messages', { meName: to ,themName: from,themNum: themNum, meNum: meNum, themMsg: them, meMsg : me });
+                    }
+                });
             }
         });
     }

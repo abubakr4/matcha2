@@ -1,5 +1,4 @@
-// const connection = require('./config/db');
-// const mysql = require('mysql');
+const connection = require('./config/db');
 const express = require('express');
 const session = require('express-session');
 const bodyParser = require('body-parser');
@@ -84,6 +83,34 @@ io.on('connection', (socket) => {
     
     socket.on("loginMsg", (msg) => {
         socket.emit('id', socket.id);
+    });
+    socket.on("chatMsg",  (msg) => {
+        //console.log(`${msg.msg} is the message ${msg.me} is the sender ${msg.them} is the reciept`);
+        var from = msg.me;
+        var to = msg.them;
+        var theMsg = msg.msg;
+        var state = '0';
+
+        //query = "SELECT * FROM messages WHERE sentby = ? AND sentto = ?";
+        
+        var query = 'INSERT INTO `messages` (`sentby`, `sentto`, `message`, `msg_state`) VALUES (?, ?, ?, ?)';
+        connection.query(query, [from, to, theMsg, state], (err) => {
+            if (err) console.log("database error");
+            else console.log('message inserted');
+        });
+        query = 'SELECT * FROM socketid WHERE username = ?';
+        connection.query(query, [to], (err) => {
+            if (err) console.log("database error");
+            else if (rows[0] && rows[0]['username']) {
+                try{
+                    io.to(`${ros[0].soc_id}`.emit('msgBack', theMsg));
+                    io.emit('back', 'hoping');
+                }catch (err){
+                    console.log('this has happend');
+                    io.emit('back', 'back');
+                }
+            }
+        });
     });
     // we have to do for the disconnecting on the page close and on the log out
 });

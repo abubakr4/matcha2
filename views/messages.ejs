@@ -1,6 +1,6 @@
 <head>
     <script src="/socket.io/socket.io.js"></script>
-    <script src="/javascripts/messages.js"></script>
+    <script src="/javascripts/messages1.js"></script>
     <link rel="stylesheet" type="text/css" href="/stylesheets/messages.css">
 </head>
 <body>
@@ -13,20 +13,50 @@
       <a href="/logout">Log out</a>
     </div>
   </div>
+  <!-- var obj = { themNum: themNum, meNum: meNum, themMsg: them, meMsg : me } -->
   <main id="chats">
     <div id="messages">
-      <!-- <%
-        let i = no -1;
-        while (i >= 0){%>
-          <p><%= i%></p>  
-        <%
-      i--;}
-      %> -->
+      <%
+        let themNum1 = themNum - 1;
+        let i = 4;
+        while (themNum1 >= 0){
+          let msg = themMsg[themNum1].message; 
+          let name = themName;
+          let time = themMsg[themNum1].date_time
+      %>
+          <div class="message-them">
+            <p><%= name%></p>
+            <p><%= msg%></p>
+            <p><%= time%></p>
+          </div>  
+      <%
+        themNum1--;
+        }
+      %>
+      <%
+        let meNum1 = meNum - 1;
+        i = 4;
+        while (meNum1 >= 0){
+          msg = meMsg[meNum1].message; 
+          name = meName;
+          time = meMsg[meNum1].date_time
+      %>
+          <div class="message-me">
+            <p><%= name%> (me)</p>
+            <p><%= msg%></p>
+            <p><%= time%></p>
+          </div>  
+      <%
+        meNum1--;
+        }
+      %>
     </div>
-    <form id="msg-area">
+    <div id="msg-area">
+        <input type="text" name="them" id="them" value="<%= themName%>" style="display: none;">
+        <input type="text" name="me" id="me" value="<%= meName%>" style="display: none;">
         <input type="text" name="msg" id="msg">
         <button type="submit" onclick="sendBtn()" >send</button>
-    </form>
+    </div>
   </main>
   <div class="header-bottom">
       <a href="/My_pictures">My Pictures</a>

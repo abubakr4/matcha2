@@ -29,7 +29,28 @@
     width: 96%;
     height: 90%;
     border: 1px solid black;
+    overflow: scroll;
 }
+.message-them{
+    display: grid;
+    width: 45%;
+    background-color: grey;
+    margin: 2%;
+}
+.message-me{
+    display: grid;
+    width: 45%;
+    background-color: green;
+    margin: 2%;
+}
+p{
+    margin: 0px 0px 0px 8px;
+    padding: 0;
+    border-bottom: 1px black solid;
+}
+
+
+
 #msg-area{
     margin: 0 2%;
     width: 96%;
