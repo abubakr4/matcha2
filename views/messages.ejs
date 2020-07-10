@@ -1,0 +1,36 @@
+<head>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="/javascripts/messages.js"></script>
+    <link rel="stylesheet" type="text/css" href="/stylesheets/messages.css">
+</head>
+<body>
+  <div class="header">
+      <a id ="user" href="#default" class="logo">
+        <img id="user-pic" src="/index_images/red watercolour background 1412.jpg" alt="">
+      </a>
+      <a href="/">Home</a>
+      <a href="/settings">Settings</a>
+      <a href="/logout">Log out</a>
+    </div>
+  </div>
+  <main id="chats">
+    <div id="messages">
+      <%
+        let i = no -1;
+        while (i >= 0){%>
+          <p><%= i%></p>  
+        <%}
+      %>
+    </div>
+    <form id="msg-area">
+        <input type="text" name="msg" id="msg">
+        <button type="submit" onclick="sendBtn()" >send</button>
+    </form>
+  </main>
+  <div class="header-bottom">
+      <a href="/My_pictures">My Pictures</a>
+      <a href="/connection_requests">Connection Requests</a>
+      <a href="/chats">chats</a>
+      <a href="/search_match">Find Your Match</a>
+  </div>
+</body>
